@@ -20,7 +20,13 @@ def hello():
 
 
 def connect():
-  return psycopg2.connect('postgresql://test:testtest@localhost:5432/postgres')
+  return psycopg2.connect(
+      host=environ['PG_HOST'],
+      port=environ['PG_PORT'],
+      user=environ['PG_USER'],
+      password=environ['PG_PASSWORD'],
+      database=environ['PG_DATABASE'],
+  )
 
 
 if __name__ == "__main__":

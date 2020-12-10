@@ -1,12 +1,16 @@
-FROM python:3.8-slim
+FROM python:3.7-slim
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+COPY requirements.txt ./
 
-ADD requirements.txt /usr/src/app/
-RUN pip install -r requirements.txt
+RUN set -ex; \
+  pip install -r requirements.txt; \
+  pip install gunicorn
 
-ADD main.py /usr/src/app/
+ENV APP_HOME /app
+WORKDIR $APP_HOME
+COPY . ./
 
-CMD [ "gunicorn", "main:app", "-b", "0.0.0.0:$PORT" ]
+# Install production dependencies.
+# RUN pip install gunicorn
 
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 main:app
