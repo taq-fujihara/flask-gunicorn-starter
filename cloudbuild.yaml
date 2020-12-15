@@ -1,19 +1,19 @@
 steps:
   # Build the container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/$PROJECT_ID/$_SERVICE-NAME:$COMMIT_SHA", "."]
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA", "."]
   # Push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/$_SERVICE-NAME:$COMMIT_SHA"]
+    args: ["push", "gcr.io/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA"]
   # Deploy container image to Cloud Run
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
       - "run"
       - "deploy"
-      - "$_SERVICE-NAME"
+      - "$_SERVICE_NAME"
       - "--image"
-      - "gcr.io/$PROJECT_ID/$_SERVICE-NAME:$COMMIT_SHA"
+      - "gcr.io/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA"
       - "--region"
       - "$_REGION"
       - "--platform"
@@ -21,4 +21,4 @@ steps:
       - "--set-env-vars"
       - "PG_HOST=$_PG_HOST,PG_USER=$_PG_HOST,PG_PORT=$_PG_PORT,PG_PASSWORD=$_PG_PASSWORD,PG_DATABASE=$_PG_DATABASE"
 images:
-  - "gcr.io/$PROJECT_ID/$_SERVICE-NAME:$COMMIT_SHA"
+  - "gcr.io/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA"
