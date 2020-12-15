@@ -20,6 +20,5 @@ steps:
       - "managed"
       - "--set-env-vars"
       - "PG_HOST=$_PG_HOST,PG_USER=$_PG_USER,PG_PORT=$_PG_PORT,PG_PASSWORD=$_PG_PASSWORD,PG_DATABASE=$_PG_DATABASE"
-      - "--allow-unauthenticated"
 images:
   - "gcr.io/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA"
