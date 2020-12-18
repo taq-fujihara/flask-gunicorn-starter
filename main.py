@@ -10,12 +10,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-  with connect() as conn:
-    with conn.cursor() as cursor:
-      cursor.execute('select * from foo')
-      for row in cursor:
-        print(row)
-
   return "Hello, World!"
 
 
